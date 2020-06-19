@@ -1,6 +1,6 @@
 # vault-quickstart project
 
-## Example
+## Quickstart
 ```
 mvn io.quarkus:quarkus-maven-plugin:1.5.2.Final:create \
     -DprojectGroupId=org.acme \
@@ -8,11 +8,16 @@ mvn io.quarkus:quarkus-maven-plugin:1.5.2.Final:create \
     -DclassName="org.acme.quickstart.GreetingResource" \
     -Dpath="/hello" \
     -Dextensions="vault"
+```
+
+## Runtime
 vault kv put secret/app/vault-quickstart/config a-private-key=123456
 vault kv get secret/app/vault-quickstart/config
 mvn clean install
 java -jar target/vault-quickstart-1.0-SNAPSHOT-runner.jar
 curl http://localhost:8080/hello/private-key
+vault kv put secret/app/vault-quickstart/private mysecret=abc
+curl http://localhost:8080/hello/secrets/private
 ```
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

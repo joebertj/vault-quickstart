@@ -1,7 +1,10 @@
 package org.acme.quickstart;
 
+import io.quarkus.vault.VaultKVSecretEngine;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -12,6 +15,8 @@ public class GreetingResource {
     @ConfigProperty(name = "a-private-key")
         String privateKey;
 
+    @Inject
+    VaultKVSecretEngine kvSecretEngine;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -24,5 +29,12 @@ public class GreetingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String privateKey() {
         return privateKey;
+    }
+
+    @GET
+    @Path("/secrets/{vault-path}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getSecrets(@PathParam("vault-path") String vaultPath) {
+	return kvSecretEngine.readSecret("app/vault-quickstart/" + vaultPath).toString();
     }
 }

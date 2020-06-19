@@ -9,8 +9,10 @@ mvn io.quarkus:quarkus-maven-plugin:1.5.2.Final:create \
     -Dpath="/hello" \
     -Dextensions="vault"
 ```
-
 ## Runtime
+```
+mvn quarkus:add-extension -Dextensions="quarkus-smallrye-health"
+curl http://localhost:8080/health/ready
 vault kv put secret/app/vault-quickstart/config a-private-key=123456
 vault kv get secret/app/vault-quickstart/config
 mvn clean install
@@ -19,7 +21,7 @@ curl http://localhost:8080/hello/private-key
 vault kv put secret/app/vault-quickstart/private mysecret=abc
 curl http://localhost:8080/hello/secrets/private
 ```
-
+## Quarkus
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
